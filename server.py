@@ -61,7 +61,7 @@ def handle_client(client_socket):
     finally:
         client_socket.close()
 
-        def print_summary():
+def print_summary():
     while True:
         time.sleep(10)
         tuple_count = len(tuple_space)
@@ -79,3 +79,26 @@ def handle_client(client_socket):
               f"Total clients: {client_count}, Total operations: {total_operations}, "
               f"Read operations: {read_operations}, Get operations: {get_operations}, "
               f"Put operations: {put_operations}, Error count: {error_count}")
+
+def start_server(port):
+    global client_count
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind(('localhost', port))
+    server_socket.listen(5)
+    print(f"Server listening on port {port}")
+    # 启动摘要打印线程
+    summary_thread = threading.Thread(target=print_summary)
+    summary_thread.daemon = True
+    summary_thread.start()
+    while True:
+        client_socket, client_address = server_socket.accept()
+        client_count += 1
+        print(f"Accepted connection from {client_address}")
+        client_thread = threading.Thread(target=handle_client, args=(client_socket,))
+        client_thread.start()
+
+
+if __name__ == "__main__":
+    port = 51234
+    start_server(port)
+              
