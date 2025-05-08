@@ -29,3 +29,9 @@ def run_client(host, port, file_path):
         print(f"Error: {e}")
     finally:
         client_socket.close()
+
+if __name__ == "__main__":
+    host = 'localhost'
+    port = 51234
+    file_path = 'requests.txt'
+    run_client(host, port, file_path)
