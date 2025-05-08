@@ -60,3 +60,22 @@ def handle_client(client_socket):
         print(f"Error handling client: {e}")
     finally:
         client_socket.close()
+
+        def print_summary():
+    while True:
+        time.sleep(10)
+        tuple_count = len(tuple_space)
+        if tuple_count > 0:
+            total_size = sum(len(k) + len(v) for k, v in tuple_space.items())
+            avg_tuple_size = total_size / tuple_count
+            avg_key_size = sum(len(k) for k in tuple_space.keys()) / tuple_count
+            avg_value_size = sum(len(v) for v in tuple_space.values()) / tuple_count
+        else:
+            avg_tuple_size = 0
+            avg_key_size = 0
+            avg_value_size = 0
+        print(f"Tuple count: {tuple_count}, Avg tuple size: {avg_tuple_size}, "
+              f"Avg key size: {avg_key_size}, Avg value size: {avg_value_size}, "
+              f"Total clients: {client_count}, Total operations: {total_operations}, "
+              f"Read operations: {read_operations}, Get operations: {get_operations}, "
+              f"Put operations: {put_operations}, Error count: {error_count}")
